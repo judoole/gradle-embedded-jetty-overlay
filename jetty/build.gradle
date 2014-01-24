@@ -1,0 +1,26 @@
+apply plugin: 'war'
+
+
+configurations {
+    embedded
+}
+sourceSets.main.compileClasspath += configurations.embedded
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+dependencies{
+	embedded project(path: ':overlay', configuration:"archives")
+}
+
+war {
+	doFirst{
+        from { configurations.embedded.collect {
+                println it
+                project.zipTree(it)
+            }
+        }
+        from "$buildDir/classes/main"
+        manifest { attributes 'Main-Class': 'example.jetty.Main' }
+        exclude "META-INF/*.SF", "META-INF/*.RSA", "about.html", "about_files/**", "readme.txt", "plugin.properties", "jetty-dir.css"
+    }
+}
