@@ -7,14 +7,9 @@ configurations {
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 sourceSets.main.compileClasspath += configurations.embedded
-repositories {
-        
-     maven { url "http://repo.maven.apache.org/maven2" }
-     maven { url "http://maven.restlet.org" }
-}
 
 dependencies{
-	compile project(path: ':overlay', configuration:"archives")
+	compile project(':overlay')
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
     compile group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.5'
     compile group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.5'
@@ -25,7 +20,6 @@ dependencies{
     compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version:'9.1.0.v20131115'
     compile group: 'org.eclipse.jetty', name: 'jetty-jsp', version:'9.1.0.v20131115'
     compile group: 'org.eclipse.jetty', name: 'jetty-security', version:'9.1.0.v20131115'
-    compile group: 'commons-io', name: 'commons-io', version:'1.4'
 }
 
 jar {
@@ -35,14 +29,14 @@ jar {
                 project.zipTree(it)
             }
         }
-        //from "$buildDir/classes/main"
+        from project(':overlay').fileTree('src/main/webapp')
         manifest { attributes 'Main-Class': 'example.jetty.Main' }
-        exclude "META-INF/*.SF", "META-INF/*.RSA", "about.html", "about_files/**", "readme.txt", "plugin.properties", "jetty-dir.css"
+        exclude "META-INF/*.SF", "META-INF/*.RSA", "about.html", "about_files/**", "readme.txt", "plugin.properties", "jetty-dir.css"        
     }
 }
 
 task runJava(type: JavaExec, dependsOn:[classes]) {
-        systemProperty 'webcontext', 'file:///Users/oleclangfjaran/DEV/git/gradle-embedded-jetty-overlay/overlay/src/main/webapp'
+        systemProperty 'webcontext', project(':overlay').projectDir.path + '/src/main/webapp'
         main = 'example.jetty.Main'
         classpath = sourceSets.main.runtimeClasspath
 }

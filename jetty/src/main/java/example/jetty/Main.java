@@ -71,6 +71,7 @@ public class Main {
             ProtectionDomain protectionDomain = Main.class.getProtectionDomain();
             String warFile = System.getProperty("webcontext", protectionDomain.getCodeSource().getLocation().toExternalForm());            
             String currentDir = new File(protectionDomain.getCodeSource().getLocation().getPath()).getParent();
+            System.out.println("Using warFile: " + warFile);
 
             // Add the warFile (this jar)
             WebAppContext context = new WebAppContext(warFile, contextPath);

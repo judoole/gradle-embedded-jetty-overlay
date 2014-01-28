@@ -1,6 +1,9 @@
 
-apply plugin: 'maven'
-
-repositories {
-    mavenCentral()
+subprojects{
+	apply plugin: 'maven'
+	repositories {
+	        
+	     maven { url "http://repo.maven.apache.org/maven2" }
+	     maven { url "http://maven.restlet.org" }
+	}
 }
