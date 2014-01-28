@@ -1,12 +1,7 @@
 apply plugin: 'java'
 
-
-configurations {
-    embedded
-}
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
-sourceSets.main.compileClasspath += configurations.embedded
 
 dependencies{
 	compile project(':overlay')
